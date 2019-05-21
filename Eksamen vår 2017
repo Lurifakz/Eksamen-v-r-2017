@@ -1,0 +1,194 @@
+class Plant {
+private:
+  string name;
+  string location;
+  int sensorId;
+  float humidityMin;
+  float humidityMax;
+  float humidity;
+public:
+  void setName(const string& plantName) { name = plantName; }
+  const string& getName() const { return name; }
+  Plant(string name, string location, int sensorId, humidityMin, humidityMax, float humidity);
+  
+}
+
+ Plant::Plant(string name, string location, int sensorId, humidityMin, humidityMax, float humidity) : name{name}, location{location},
+      sensorId{sensorId}, humidityMin{humidityMin}, humidityMax{humidityMax}, humidity{-1} {}
+      
+float Plant::readHumidity() {
+  humidity = readSensor(id);
+  return humidity;
+}
+
+enum class PlantStatus { HAPPY_PLANT, WATER_LOW, WATER_HIGH, SENSOR_ERROR };
+
+map<PlantStatus, string> {
+  {HAPPY_PLANT, "humidity er mellom humidityMin og humidityMax"}
+}
+
+PlantStatus Plant::getStatus() const {
+  if (humidity > humidityMax) { return PlantStatus::WATER_HIGH; }
+  if (humidity < humidityMin) { return PlantStatus::WATER_LOW; }
+  if (humidity >=umidityMin && humidity <= himidityMax) { return PlantStatus::WATER_LOW; }
+  return PlantStatus::SENSOR_ERROR;
+}
+
+bool Plant::operator==(Plant &rhs) {
+  return (sensorID == rhs.sensorID);
+}
+
+ostream &operator<<(ostream& out, Plant &p) {
+  out << p.getName() << " @ " << p.getLocation();
+  return out;
+}
+  
+class Garden{
+private:
+  string name;
+  vector<Plant> plants;
+public:
+  Garden(string name) : name{name};
+};
+  
+  
+void Garden::addPlant(Plant p) {
+  plants.push_back(p);
+}
+
+void Garden::removePlant(Plant p) {
+  for (int i = 0; i < plants.size(); ++i) {
+    if (plants[i] == p) { plants.erase(i); }
+}
+    
+vector<Plant> Garden::needsHelp() {
+  vector<Plant> ret;
+  for (int i = 0; i < plants.size(); ++i) {
+    float plants[i] = plants[i].readHumidity();
+    if (plants[i].getStatus() != PlantStatus::HAPPY_PLANT) { ret.push_back(plants[i]; }
+  }
+  return ret;
+}
+
+void Garden::monitor(int interval) {
+  bool status = true;
+  while (status) {
+    vector<Plant> helpVector = plants.needsHelp();
+    for (int i = 0; i < helpVector.size(); ++i) {
+      cout << helpVector[i].getName() << " @ " << helpVector[i].getLocation << ": <" << helpVector[i].getStatus() << ">";
+    }
+    sleep(interval);
+  }
+}
+
+
+int main() {
+    Plant orchid("Orkidé", "Stue", 1, 10, 25, 16);
+    Plant cactu("Kaktus", "Stue", 2, 5, 10, 8); 
+    Plant basil("Basilikum", "Kjøkken", 3, 25, 50, 35);
+    Plant mint("Mynte", "Kjøkken", 4, 20, 50, 28);
+ 
+    Garden gard("Haga");
+    gard.addPlant(orchid);
+    gard.addPlant(cactu);
+    gard.addPlant(basil);
+    gard.addPlant(mint);
+    
+    gard.monitor(300);
+ }
+    
+ 
+ 
+ 
+//OPPGAVE 3
+ 
+double radian(double degree) {
+  return degree/360.0 * 2 * PI;
+}
+
+double nFac(unsigned int n) {
+  if (n==0) { return 1; }
+  double fac = n;
+  while(n>0) {
+    fac *= (--n);
+  }
+}
+
+double sineTaylorTerm(double x, int n) {
+  double x = radian(x);
+  if(n % 2 == 1) { double teller = -1.0; }
+  else { double teller = 1; }
+  double sin = teller/nFac(2*n+1) * pow(x,2.*n+1.0);
+  return sin;
+}
+
+double sineTaylor(double x, int n) {
+  double sineR = 0.0;
+  for(int i = 0; i < n+1; i++) {
+    sineR += sineTaylorTerm(x, i);
+  }
+  return sineR;
+}
+
+int testTaylor(double degree, double epsilon) {
+  int n = 0;
+  while (abs(sin(x) - sineTaylor(degree, n)) > epsilon) {
+    ++n;
+  }
+  return n;
+}
+
+int findDegreeMostTerms(double epsilon = 0.000001) {
+  int degMostTerms = -1;
+  for (int i = 0; i <= 180; i++) {
+    int terms = testTaylor(static_cast<double>(i), epsilon);
+    if (terms >= degMostTerms) { degMostTerms = terms; }
+  }
+  return degMostTerms;
+}
+
+double nFacRobust(unsigned int n) {
+  if (n > NFAK_LIMIT) {
+    throw n;
+  }
+  else {
+    return nFac(n);
+  }
+}  
+
+exception(e) {
+  cout << "The term " << n << "is too high."
+  break;
+}
+
+
+void testnFacRobust() {
+  int test[3] = {0, 8, NFAK_LIMIT + 1};
+  for (int i = 0; i < 3; i++) {
+    double nFacValue = 0.0;
+    try {
+      nFacValue = nFacRobust(testCase[i]);
+    }
+    catch (unsigned int e) {
+      cout << "Error, too large input: " << e << endl;
+      continue;
+    }
+    cout << nFacValue << endl;
+    
+  int d1 = nFacRobust(0);
+  int d2 = nFacRobust(8);
+  double d3 = nFacRobust(NFAK_LIMIT +1);
+  cout << d1 << endl << d2 << endl << d3;
+}
+  
+  
+
+
+// OPPGAVE 4
+
+
+ 
+ 
+ 
+ 
+ 
